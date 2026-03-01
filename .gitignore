@@ -8,6 +8,6 @@ __pycache__/
 *.pyc
 
 # Data and Models (Keeps your repo lightweight)
-data_flattened/*.csv
+dataset_flattened/*.csv
 *.pkl
 *.zip
