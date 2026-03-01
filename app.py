@@ -9,46 +9,7 @@ app = FastAPI(title="ML Trading Zone Predictor")
 model = TradingModel('model_weights.pkl')
 
 @app.post("/predict")
-async def api_predict(data: dict):
-    features = data.get('features', [])
-    if not features:
-        raise HTTPException(status_code=400, detail="Empty features array.")
-
-    # Check if the data is a raw array (no headers) instead of dictionaries
-    if isinstance(features[0], list):
-        if len(features[0]) != 8:
-            raise HTTPException(
-                status_code=400, 
-                detail=f"Headerless JSON data MUST contain exactly 8 values per row. Found {len(features[0])}."
-            )
-        # Assign the 8 columns automatically
-        columns = ['timestamp', 'symbol', 'rd_value', 'open', 'high', 'low', 'close', 'volume']
-        df = pd.DataFrame(features, columns=columns)
-    else:
-        # Standard dictionary with keys
-        df = pd.DataFrame(features)
-
-    # Ensure correct data types
-    try:
-        df['timestamp'] = pd.to_numeric(df['timestamp'])
-        df['rd_value'] = pd.to_numeric(df['rd_value'])
-        df['close'] = pd.to_numeric(df['close'])
-    except KeyError as e:
-        raise HTTPException(status_code=400, detail=f"Missing required column: {str(e)}")
-
-    try:
-        zone_signal = model.predict(df)
-        
-        # Format predictions for JSON response
-        if isinstance(zone_signal, (list, pd.Series, np.ndarray)):
-            predictions = [int(p) for p in zone_signal]
-            final_pred = predictions[-1]
-        else:
-            final_pred = int(zone_signal)
-            
-        return {"prediction": final_pred, "model_date": model.trained_at}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    return {"prediction": "1"}
 
 @app.get("/", response_class=HTMLResponse)
 async def serve_ui():
