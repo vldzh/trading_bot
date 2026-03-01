@@ -1,0 +1,13 @@
+# Environments
+venv/
+env/
+.venv/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Data and Models (Keeps your repo lightweight)
+data_flattened/*.csv
+*.pkl
+*.zip
