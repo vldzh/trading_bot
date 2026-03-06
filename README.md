@@ -53,6 +53,10 @@ pip install -r requirements.txt
 cd endpoint
 python main.py
 ```
+или
+```
+uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+```
 ## 🌐 Тестовый стенд (Live Demo)
 
 Тестовая реализация эндпоинта развернута на удаленном сервере. Вы можете изучить документацию API и протестировать запросы через интерактивный Swagger UI:
